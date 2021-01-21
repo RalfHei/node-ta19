@@ -5,6 +5,7 @@ const http = require('http').createServer(app);
 const socketio = require('socket.io');
 const io = socketio(http)
 
+
 const session = require('express-session');
 const redis = require('redis');
 const connectRedis = require('connect-redis');
@@ -48,9 +49,9 @@ const sessionMiddleWare = session({
 
 app.use(sessionMiddleWare);
 
-// io.use((socket, next) => {
-//   sessionMiddleware(socket.request, {}, next);
-// });
+ io.use((socket, next) => {
+   sessionMiddleWare(socket.request, {}, next);
+ });
 
 app.get("/", (req, res) => {
   sess = req.session;
